@@ -147,7 +147,7 @@ class App extends Component {
           <header className="App-header">
             <div>
               <Link to="/">
-                <div className="App-title"><img src={logo} title="QRMAX" style={{ width: 238, height: 80 }}/></div>
+                <div className="App-title"><img src={logo} alt="QRMAX" title="QRMAX" style={{ width: 238, height: 80 }}/></div>
               </Link>
             </div>
             <div className="menu">

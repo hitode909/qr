@@ -36,8 +36,16 @@ class QRGenerator extends Component {
 class QRReader extends Component {
   constructor (props) {
     super(props);
+    let urls = [];
+    try {
+      const urlsInStorage = JSON.parse(localStorage.getItem('history'));
+      if (urlsInStorage) {
+        urls = urlsInStorage;
+      }
+    } catch (ignore) { };
+
     this.state = {
-      urls: [],
+      urls: urls,
       error: null,
       seemsRearCamera: false,
     };
@@ -50,12 +58,20 @@ class QRReader extends Component {
   setupScanner() {
     this.scanner = new Instascan.Scanner({ video: this.refs.videoScreen, mirror: ! this.state.seemsRearCamera });
     this.scanner.addListener('scan', (url) => {
-      const urls = [].concat(this.state.urls);
-      if (urls.indexOf(url)=== -1) {
-        urls.unshift(url);
-        this.setState({ urls });
-      }
+      const urls = [].concat(this.state.urls).filter(u => u !== url);
+      urls.unshift(url);
+      this.setState({ urls });
+      try {
+        localStorage.setItem('history', JSON.stringify(urls));
+      } catch (ignore) { };
     });
+  }
+
+  removeHistory() {
+    try {
+      localStorage.clear();
+    } catch (ignore) { };
+    this.setState({ urls: [] });
   }
 
   startScan() {
@@ -102,18 +118,33 @@ class QRReader extends Component {
     )
   }
 
-  render() {
+  renderHistory() {
+    if (!this.state.urls.length > 0) {
+      return null;
+    }
+
     return (
       <div>
+        <h2>
+          History
+            <button type="button" onClick={this.removeHistory.bind(this)}>Clear</button>
+        </h2>
+        <ul className="history">
+          {this.state.urls.map((url) => { return this.renderURL(url); })}
+        </ul>
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <div className="QRReader">
         { this.renderError() }
 
         <div>
           <video ref="videoScreen"></video>
         </div>
-        <h2>History</h2>
-        <ul className="history">
-          {this.state.urls.map((url) => { return this.renderURL(url); })}
-        </ul>
+        { this.renderHistory() }
       </div>
     );
   }

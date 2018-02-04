@@ -30,11 +30,12 @@ img,canvas {
 }
 
 .App-header a {
+  font-size: 120%;
   color: white;
 }
 .App-header .menu a {
   display: inline-block;
-  padding: 0.5vh;
+  padding: 2vh;
 }
 
 .App-header .menu a.selected {
@@ -106,14 +107,23 @@ img,canvas {
 }
 
 .QRReader .history a {
+  text-decoration: underline;
   color: #000;
   word-break: break-word;
   width: 100%;
 }
+
 .QRReader .history a:hover {
-  opacity: 0.9;
+  opacity: 0.8;
 }
 
 .QRReader .history a:visited {
   color: #666;
+}
+
+.QRReader .history code {
+  color: #888;
+  word-break: break-word;
+  width: 100%;
+  font-family: monospace;
 }

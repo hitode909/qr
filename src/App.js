@@ -148,11 +148,17 @@ class QRReader extends Component {
   }
 
   renderURL(url) {
-    return (
-      <li key={`link-${url}`}>
-        <a href={url} target="_blank" rel="nofollow" >{url}</a>
-      </li>
-    );
+    if (url.match(/^https?:\/\//)) {
+      return (
+        <li key={`link-${url}`}>
+          <a href={url} target="_blank" rel="nofollow noopener noreferrer">{url}</a>
+        </li>
+      );
+    } else {
+      return (
+        <li key={`code-${url}`}><code>{url}</code></li>
+      );
+    }
   }
 }
 

@@ -22,8 +22,8 @@ class QRGenerator extends Component {
   render() {
     return (
       <div className="QRGenerator" >
-        <div>
-          <QRCode value={this.state.url} size={300} />
+        <div className="qr-container">
+          <QRCode value={this.state.url} size={200} />
         </div>
         <div>
           <textarea className="url-input" type="search" placeholder="URL" value={this.state.url} onChange={this.urlChanged.bind(this)} autoFocus />

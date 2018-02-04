@@ -141,8 +141,9 @@ class QRReader extends Component {
       <div className="QRReader">
         { this.renderError() }
 
-        <div>
+        <div className="video-container">
           <video ref="videoScreen"></video>
+          <div className="scanning">SCANNING</div>
         </div>
         { this.renderHistory() }
       </div>

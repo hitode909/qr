@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Link, NavLink, Route} from 'react-router-dom';
+import { MemoryRouter, Link, NavLink, Route} from 'react-router-dom';
 import QRCode from 'qrcode.react';
 import Instascan from 'instascan';
-import logo from './logo.svg';
+import logo from './logo.png';
 import './App.css';
 
 class QRGenerator extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      url: '',
+      url: 'https://example.com/',
     };
   }
 
@@ -20,12 +20,12 @@ class QRGenerator extends Component {
 
   render() {
     return (
-      <div>
+      <div className="QRGenerator" >
         <div>
           <QRCode value={this.state.url} size={300} />
         </div>
         <div>
-          <input type="url" style={{ width: '100%' }} type="url" value={this.state.url} onChange={this.urlChanged.bind(this)} autoFocus />
+          <input className="url-input" type="search" placeholder="URL" style={{ width: '100%' }} value={this.state.url} onChange={this.urlChanged.bind(this)} autoFocus />
         </div>
       </div>
     );
@@ -107,9 +107,9 @@ class QRReader extends Component {
         { this.renderError() }
 
         <div>
-          {this.state.seemsRearCamera ? 'flip-video' : 'non-flip'}
-          <video style={{ width: 300, height: 300 }} ref="videoScreen"></video>
+          <video ref="videoScreen"></video>
         </div>
+        <h2>History</h2>
         <ul>
           {this.state.urls.map((url) => { return this.renderURL(url); })}
         </ul>
@@ -141,15 +141,15 @@ class App extends Component {
 
   render() {
     return (
-      <BrowserRouter>
+      <MemoryRouter>
         <div className="App">
           <header className="App-header">
             <div>
               <Link to="/">
-                <h1 className="App-title">QR</h1>
+                <div className="App-title"><img src={logo} title="QRMAX" style={{ width: 238, height: 80 }}/></div>
               </Link>
             </div>
-            <div>
+            <div className="menu">
               <NavLink exact={true} to="/" activeClassName="selected">Generate</NavLink>
               <NavLink exact={true} to="/capture" activeClassName="selected">Capture</NavLink>
             </div>
@@ -158,10 +158,8 @@ class App extends Component {
             <Route exact path="/" component={QRGenerator} />
             <Route path="/capture" component={QRReader} />
           </div>
-          <footer>
-          </footer>
-          </div>
-      </BrowserRouter>
+        </div>
+      </MemoryRouter>
     );
   }
 }

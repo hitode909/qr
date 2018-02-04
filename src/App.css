@@ -19,17 +19,13 @@ a {
 .App-header a {
   color: white;
 }
+.App-header .menu a {
+  padding: 10px;
+  margin: 10px;
+}
 
-.App-header a.selected {
+.App-header .menu a.selected {
   font-weight: bold;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
 }
 
 .main-content {

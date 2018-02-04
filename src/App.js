@@ -10,7 +10,7 @@ class QRGenerator extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      url: 'https://example.com/',
+      url: 'https://qr.sushi.money/',
     };
   }
 
@@ -26,7 +26,7 @@ class QRGenerator extends Component {
           <QRCode value={this.state.url} size={300} />
         </div>
         <div>
-          <input className="url-input" type="search" placeholder="URL" style={{ width: '100%' }} value={this.state.url} onChange={this.urlChanged.bind(this)} autoFocus />
+          <textarea className="url-input" type="search" placeholder="URL" value={this.state.url} onChange={this.urlChanged.bind(this)} autoFocus />
         </div>
       </div>
     );
@@ -111,7 +111,7 @@ class QRReader extends Component {
           <video ref="videoScreen"></video>
         </div>
         <h2>History</h2>
-        <ul>
+        <ul className="history">
           {this.state.urls.map((url) => { return this.renderURL(url); })}
         </ul>
       </div>
@@ -121,7 +121,7 @@ class QRReader extends Component {
   renderURL(url) {
     return (
       <li key={`link-${url}`}>
-        <a href={url} target="_blank" >{url}</a>
+        <a href={url} target="_blank" rel="nofollow" >{url}</a>
       </li>
     );
   }
@@ -147,17 +147,18 @@ class App extends Component {
           <header className="App-header">
             <div>
               <Link to="/">
-                <div className="App-title"><img src={logo} alt="QRMAX" title="QRMAX" style={{ width: 238, height: 80 }}/></div>
+                <h1 className="App-title"><img src={logo} alt="QR" title="QR" style={{ width: 108, height: 80 }} /></h1>
+                <p className="App-description">QR Code Generator &amp; Scanner</p>
               </Link>
             </div>
             <div className="menu">
               <NavLink exact={true} to="/" activeClassName="selected">Generate</NavLink>
-              <NavLink exact={true} to="/capture" activeClassName="selected">Capture</NavLink>
+              <NavLink exact={true} to="/scan" activeClassName="selected">Scan</NavLink>
             </div>
           </header>
           <div className="main-content">
             <Route exact path="/" component={QRGenerator} />
-            <Route path="/capture" component={QRReader} />
+            <Route path="/scan" component={QRReader} />
           </div>
         </div>
       </MemoryRouter>

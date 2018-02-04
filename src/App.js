@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { MemoryRouter, Link, NavLink, Route} from 'react-router-dom';
 import QRCode from 'qrcode.react';
-import Instascan from 'instascan';
 import logo from './logo.png';
 import './App.css';
+
+const Instascan = window.Instascan;
 
 class QRGenerator extends Component {
   constructor (props) {

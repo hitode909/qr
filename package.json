@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "instascan": "^1.0.0",
     "qrcode.react": "^0.7.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -17,6 +16,7 @@
     "build": "react-scripts build",
     "release": "npm run build && s3 sync build/ s3://qrmax --profile private",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postinstall": "wget https://github.com/schmich/instascan/releases/download/1.0.0/instascan.min.js -O public/instascan.min.js"
   }
 }

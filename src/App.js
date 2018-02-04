@@ -125,13 +125,10 @@ class QRReader extends Component {
 
     return (
       <div>
-        <h2>
-          History
-            <button type="button" onClick={this.removeHistory.bind(this)}>Clear</button>
-        </h2>
         <ul className="history">
           {this.state.urls.map((url) => { return this.renderURL(url); })}
         </ul>
+        <button type="button" onClick={this.removeHistory.bind(this)}>Clear History</button>
       </div>
     );
   }
@@ -179,7 +176,7 @@ class App extends Component {
           <header className="App-header">
             <div>
               <Link to="/">
-                <h1 className="App-title"><img src={logo} alt="QR" title="QR" style={{ width: 108, height: 80 }} /></h1>
+                <h1 className="App-title"><img src={logo} alt="QR" title="QR" style={{ height: '10vh' }} /></h1>
                 <p className="App-description">QR Code Generator &amp; Scanner</p>
               </Link>
             </div>

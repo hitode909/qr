@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Link, NavLink, Route} from 'react-router-dom';
 import QRCode from 'qrcode.react';
 import Webcam from 'react-webcam';
 import Instascan from 'instascan';
@@ -25,7 +26,7 @@ class QRGenerator extends Component {
           <QRCode value={this.state.url} size={300} />
         </div>
         <div>
-          <input type="url" style={{ width: '100%' }} type="url" value={this.state.url} onChange={this.urlChanged.bind(this)} />
+          <input type="url" style={{ width: '100%' }} type="url" value={this.state.url} onChange={this.urlChanged.bind(this)} autoFocus />
         </div>
       </div>
     );
@@ -80,8 +81,8 @@ class QRReader extends Component {
 
   renderURL(url) {
     return (
-      <li>
-        <a key={url} href="{url}" target="_blank" >{url}</a>
+      <li key={`link-${url}`}>
+        <a href={url} target="_blank" >{url}</a>
       </li>
     );
   }
@@ -102,14 +103,27 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <QRReader />
-        <QRGenerator />
-      </div>
+      <BrowserRouter>
+        <div className="App">
+          <header className="App-header">
+            <div>
+              <Link to="/">
+                <h1 className="App-title">QR</h1>
+              </Link>
+            </div>
+            <div>
+              <NavLink exact={true} to="/" activeClassName="selected">Generate</NavLink>
+              <NavLink exact={true} to="/capture" activeClassName="selected">Capture</NavLink>
+            </div>
+          </header>
+          <div className="main-content">
+            <Route exact path="/" component={QRGenerator} />
+            <Route path="/capture" component={QRReader} />
+          </div>
+          <footer>
+          </footer>
+          </div>
+      </BrowserRouter>
     );
   }
 }

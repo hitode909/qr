@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Link, NavLink, Route} from 'react-router-dom';
 import QRCode from 'qrcode.react';
-import Webcam from 'react-webcam';
 import Instascan from 'instascan';
 import logo from './logo.svg';
 import './App.css';
@@ -38,6 +37,8 @@ class QRReader extends Component {
     super(props);
     this.state = {
       urls: [],
+      error: null,
+      seemsRearCamera: false,
     };
   }
 
@@ -45,32 +46,69 @@ class QRReader extends Component {
     this.webcam = webcam;
   }
 
-  componentDidMount() {
-    const scanner = new Instascan.Scanner({ video: this.webcam.getCanvas() });
-    this.scanner = scanner;
-    scanner.addListener('scan', (url) => {
+  setupScanner() {
+    this.scanner = new Instascan.Scanner({ video: this.refs.videoScreen, mirror: ! this.state.seemsRearCamera });
+    this.scanner.addListener('scan', (url) => {
       const urls = [].concat(this.state.urls);
       if (urls.indexOf(url)=== -1) {
-        urls.push(url);
+        urls.unshift(url);
         this.setState({ urls });
       }
     });
+  }
+
+  startScan() {
     Instascan.Camera.getCameras().then((cameras) => {
-      if (cameras.length > 0) {
-        scanner.start(cameras[0]);
+      this.setState({ seemsRearCamera: cameras.length > 1 });
+      if (!this.scanner) {
+        this.setupScanner();
+      }
+      const scanner = this.scanner;
+      const rearCamera = cameras[cameras.length - 1];
+      if (rearCamera) {
+        scanner.start(rearCamera);
       } else {
-        console.error('No cameras found.');
+        this.setState({
+          error: 'No cameras found',
+        });
       }
     }).catch((e) => {
-      console.error(e);
+      this.setState({
+        error: e,
+      })
     });
+  }
+
+  stopScan() {
+    this.scanner.stop();
+  }
+
+  componentDidMount() {
+    this.startScan();
+  }
+
+  componentWillUnmount() {
+    this.stopScan();
+  }
+
+  renderError() {
+    if (!this.state.error) {
+      return null;
+    }
+
+    return (
+      <div>{this.state.error}</div>
+    )
   }
 
   render() {
     return (
       <div>
+        { this.renderError() }
+
         <div>
-          <Webcam audio={false} ref={this.setRef} width={200} height={200} />
+          {this.state.seemsRearCamera ? 'flip-video' : 'non-flip'}
+          <video style={{ width: 300, height: 300 }} ref="videoScreen"></video>
         </div>
         <ul>
           {this.state.urls.map((url) => { return this.renderURL(url); })}

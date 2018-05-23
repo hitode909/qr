@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MemoryRouter, Link, NavLink, Route} from 'react-router-dom';
+import { MemoryRouter, NavLink, Route} from 'react-router-dom';
 import QRCode from 'qrcode.react';
 import logo from './logo.png';
 import './App.css';
@@ -181,10 +181,8 @@ class App extends Component {
         <div className="App">
           <header className="App-header">
             <div>
-              <Link to="/">
-                <h1 className="App-title"><img src={logo} alt="QR" title="QR" style={{ height: '10vh' }} /></h1>
-                <p className="App-description">QR Code Generator &amp; Scanner</p>
-              </Link>
+              <h1 className="App-title"><img src={logo} alt="QR" title="QR" style={{ height: '10vh' }} /></h1>
+              <p className="App-description">QR Code Generator &amp; Scanner</p>
             </div>
             <div className="menu">
               <NavLink exact={true} to="/" activeClassName="selected">Generate</NavLink>
